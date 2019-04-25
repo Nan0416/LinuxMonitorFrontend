@@ -1,0 +1,42 @@
+<div id="detail-wrapper">
+  <div class="target-info">
+    <div class="target-summary panel" *ngIf="targetInfo">
+        <p>{{targetInfo.name}} {{targetInfo.hostname}}</p>
+        <p>{{targetInfo.model}}</p>
+        <p>{{targetInfo.kernel}} {{targetInfo.arch}}</p>
+    </div>
+    <div class="control-panel panel" *ngIf="targetInfo">
+      <input [(ngModel)]="request_period" type="number">
+      <button (click)="updatePeriod()">Update</button>
+      <button (click)="useWS()">WS</button>
+      <button (click)="useHTTP()">HTTP</button>
+    </div>
+    <div class="empty"></div>
+  </div>
+  <div class="detail-container">
+    <div class="panel" id="loadavg">
+      <svg id="loadavg-svg" width="400" height="230"  style="border: 1px solid #777;"></svg>
+    </div>
+    <div class="panel" id="CPU">
+      <svg id="CPU-svg" width="400" height="230"  style="border: 1px solid #777;"></svg>
+    </div>
+    <div class="panel" id="memory">
+      <svg id="memory-svg" width="400" height="230"  style="border: 1px solid #777;"></svg>
+    </div>
+    <div class="panel" id="networkIO">
+      <svg id="networkIO-svg" width="400" height="230"  style="border: 1px solid #777;"></svg>
+    </div>
+    <div class="panel" id="diskIO">
+      <svg id="diskIO-svg" width="400" height="230"  style="border: 1px solid #777;"></svg>
+    </div>
+    <div class="panel empty">
+
+    </div>
+    <div class="panel empty">
+
+    </div>
+    <div class="panel empty">
+
+    </div>
+  </div>
+</div>

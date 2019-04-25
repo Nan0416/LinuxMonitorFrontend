@@ -1,0 +1,29 @@
+<div id="top-nav">
+  <a class="nav-btn" routerLink="/">Home</a>
+  <a *ngIf="username" class="nav-btn top-nav-item" routerLink="/monitor">Monitor</a>
+  <a *ngIf="username" class="nav-btn top-nav-item" routerLink="/targets">Targets</a>
+  <span class="toolbar-filler"></span>
+  <a *ngIf="!username" class="nav-btn top-nav-item" routerLink="/login"><i class="fas fa-user"></i> Login / Sign up</a>
+  <div *ngIf="username" class="user-dropdown top-nav-item" routerLink="/user">
+    <span class="nav-btn">{{username}}</span>
+    <div id="user-dropdown-content">
+      <button class="nav-btn" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      <a class="nav-btn" routerLink="/user">Account</a>
+    </div>
+  </div>
+
+  <button class="nav-btn nav-toggle" (click)="sidenavToggle()">
+    <i class="fas fa-bars" [ngStyle]="{'display': display_menu}"></i>
+    <i class="fas fa-times" [ngStyle]="{'display': display_close}"></i>
+  </button> 
+</div>
+<div id="hidden-block" [ngStyle]="{'display': display_hidden_block}">
+    <a *ngIf="username" class="nav-btn" routerLink="/monitor">Monitor</a>
+    <a *ngIf="username" class="nav-btn" routerLink="/targets">Targets</a>
+    <a *ngIf="!username" class="nav-btn" routerLink="/login"><i class="fas fa-user"></i> Login / Sign up</a>
+    <a *ngIf="username" class="nav-btn" routerLink="/user">{{username}}</a>
+    <button *ngIf="username" class="nav-btn" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  
+
+</div>
+<router-outlet></router-outlet>
