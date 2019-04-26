@@ -1,0 +1,32 @@
+$text-color: rgb(194,194,194);
+$header-background-color: rgb(16, 13, 22);
+$background-line-color: rgb(194,194,194);
+$header-background-color-hover: rgb(31, 28, 40);
+
+ul{
+    list-style: none;
+    padding: 0;
+    margin:0;
+    border:0;
+}
+.agents{
+    margin: 30px;
+}
+a{
+    text-decoration: none;
+
+}
+.agent-item{
+    border-bottom: 1px $background-line-color solid;
+}
+.agent-info{
+    font-family: Rubik,Lato,"Lucida Grande","Lucida Sans Unicode",Tahoma,Sans-Serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: $header-background-color;
+    
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding: 5px 10px;
+}

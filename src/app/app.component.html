@@ -1,4 +1,4 @@
-<div id="main-wrapper" [ngClass]="{'wrapper': true, 'vertical-wrapper': isVertical, 'horizontal-wrapper': !isVertical}">
+<div id="main-wrapper" (click)="closeDropdown()" [ngClass]="{'wrapper': true, 'vertical-wrapper': isVertical, 'horizontal-wrapper': !isVertical}">
     <div *ngIf="user != null" id="main-header" [ngClass]="{'header': true, 'vertical-header': isVertical, 'horizontal-header': !isVertical}">
     <!--header-->
 
@@ -22,10 +22,27 @@
 
     <!--horizontal header-->
     <ul *ngIf="!isVertical" id="second-header-section" class="header-section">
-      <li id="user-icon" class="header-item"><span style="display:inline-block;height:100%; vertical-align: middle;"></span><img width="40px" height="40px" [src]="user.profile"></li>
+      <li id="user-icon" class="header-item" (click)="toggleDropdown($event)"><span style="display:inline-block;height:100%; vertical-align: middle;"></span><img width="40px" height="40px" [src]="user.profile"></li>
     </ul>
+
+    <!--user dropdown-->
+    <div *ngIf="!isVertical && isShowingDropdown" id="user-dropdown" class="dropdown">
+
+      <!--width = 200 = 1 border + 10 padding + 178 width + 10 padding + 1 border-->
+      <ul id="first-dropdown-section" class="dropdown-section">
+          <li class="dropdown-item"><span>Hello <span style="font-weight:800; padding: 0">{{user.username}}</span></span></li>
+      </ul>
+      <ul id="second-dropdown-section" class="dropdown-section">
+        <li class="dropdown-item clickable"><a routerLink="account"><span>Account</span></a></li>
+        <li class="dropdown-item clickable"><a routerLink="key"><span>API Keys</span></a></li>
+        <li class="dropdown-item clickable"><a routerLink="settings"><span>Settings</span></a></li>
+      </ul>
+      <ul id="second-dropdown-section" class="dropdown-section">
+        <li class="dropdown-item clickable" (click)="logout()"><span>Logout</span></li>
+      </ul>
     </div>
-    <div id="main-content" class="content">
+    </div>
+    <div id="main-content" [ngClass]="{'content': true, 'vertical-content': isVertical}">
         <router-outlet></router-outlet>
     </div>
 </div>

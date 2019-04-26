@@ -32,3 +32,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## TODO
 1. read pluginmeta from backend.
+2. detect agent meta update before send.

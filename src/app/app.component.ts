@@ -12,17 +12,17 @@ export class AppComponent implements OnInit {
   verticalWidth: Number = 560;
   isVertical: boolean = true;
   user: User = null;
-
+  isShowingDropdown: boolean = false;
   constructor(
     private router: Router,
     private userOperator: UserOperationService,
     private windowResize: WindowResizeService,
   ){ 
-    this.user = new User(); 
+    /*this.user = new User(); 
     this.user.username = "qinnan";
     this.user.email = "qinnan0416@gmail.com";
     this.user.status = 1;
-    this.user.profile = "../assets/img/temp-profile.jpg";
+    this.user.profile = "../assets/img/temp-profile.jpg";*/
     
   }
 
@@ -36,46 +36,62 @@ export class AppComponent implements OnInit {
    *  */
   ngOnInit(){
     this.isVertical = this.windowResize.getWidth() < this.verticalWidth;
+    // set resize listener
     this.windowResize.listenWidthThreshold(this.verticalWidth).subscribe(width=>{
       console.log("invoked");
       if(width >= this.verticalWidth){
         this.isVertical = false;
       }else{
         this.isVertical = true;
+        this.isShowingDropdown = false;
       }
     });
-    this.router.events.subscribe((evt)=>{
-      if(!(evt instanceof NavigationEnd)){
-        return;
+    console.log(this.router.url);
+    // set login listener
+    this.userOperator.userMount$.subscribe(user=>{
+      this.user = user;
+      console.log(this.user);
+      if(this.router.url == '/'){ 
+        this.router.navigate(["dashboard"]);
       }
-     
     });
-    this.userOperator.userMount$.subscribe(data=>{
-     
-      //this.targetOperator.ws_open();
-      //this.targetOperator.ws_subscribe();
-      //this.targetOperator.queryTargets();
-      //this.dataContainer.init();
+
+    // set logout listener
+    this.userOperator.userUnMount$.subscribe(()=>{
+      // go to welcome page
+      this.user = null;
+      this.router.navigate(["/"]);
     });
-    this.userOperator.userUnMount$.subscribe(data=>{
-     
-      //this.dataContainer.clear();
-      //this.targetOperator.ws_close();
-    });
+
+    // query initialial state.
     this.userOperator.queryUserWithSession();
-    //this.targetOperator.queryTargets();
   }
 
+  _isloggingout: boolean = false;
   logout(){
+    if(this._isloggingout){
+      return;
+    }
+    this._isloggingout = true;
     this.userOperator.logout().subscribe(data=>{
+      this._isloggingout = false;
       if(data.success){
-        this.router.navigate(["login"]);
-        //this.targetOperator.ws_close();
-        // clear
+        // do nothing, nagivate to / is done by the above listener.
       }else{
-        //show err
-        alert(JSON.stringify(data.reasons));
+        // alert(JSON.stringify(data.reasons));
       }
     });
+  }
+
+
+
+  // UI event handler
+  toggleDropdown(evt){
+    evt.stopPropagation();
+    this.isShowingDropdown = !this.isShowingDropdown;
+  }
+  
+  closeDropdown(){
+    this.isShowingDropdown = false;
   }
 }

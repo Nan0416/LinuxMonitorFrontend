@@ -34,13 +34,22 @@ export class UserOperationService {
     this.userUnMountEvt_.next(null);
   }
 
-
+  getUser(){
+    return this.user;
+  }
+  /**
+   * query user from backend
+   */
   queryUserWithSession(){
     const httpObserver = {
       next: data=>{
         if(data.success && data.value){
-          this.user = data.value;  
-          this.__notifyUserMountSubscribers(data.value);
+          this.user = new User();
+          this.user.username = data.value.username;
+          this.user.email = data.value.email;
+          this.user.profile = "../assets/img/temp-profile.jpg";
+          this.user.status = data.value.status;
+          this.__notifyUserMountSubscribers(this.user);
         }else{
           this.user = null;
           this.__notifyUserUnMountSubscribers();
@@ -51,8 +60,8 @@ export class UserOperationService {
         this.__notifyUserUnMountSubscribers();
       }
     };
-    let isLoginUrl = `${this.urlprefix}/user/query`;
-    this.http.get(isLoginUrl, {withCredentials: true }).subscribe(httpObserver);
+    let queryUserUrl = `${this.urlprefix}/user/query`;
+    this.http.get(queryUserUrl, {withCredentials: true }).subscribe(httpObserver);
   }
 
   login(id: string, password): Observable<User>{
@@ -60,9 +69,13 @@ export class UserOperationService {
        const httpObserver = {
         next: data=>{
           if(data.success && data.value){
-            this.user = data.value;
-            observable.next(data.value);
-            this.__notifyUserMountSubscribers(data.value);
+            this.user = new User();
+            this.user.username = data.value.username;
+            this.user.email = data.value.email;
+            this.user.profile = "../assets/img/temp-profile.jpg";
+            this.user.status = data.value.status;
+            observable.next(this.user);
+            this.__notifyUserMountSubscribers(this.user);
 
           }else{
             this.user = null;
@@ -88,7 +101,7 @@ export class UserOperationService {
     const logoutReq: Observable<Result> = new Observable((observable)=>{
       const httpObserver = {
        next: data=>{
-        this.__notifyUserUnMountSubscribers();
+         this.__notifyUserUnMountSubscribers();
          this.user = null;
          if(data.success){
            observable.next(data);
@@ -119,10 +132,13 @@ export class UserOperationService {
       const httpObserver = {
        next: data=>{
          if(data.success && data.value){
-           this.user = data.value;
-           observable.next(data.value);
-           this.__notifyUserMountSubscribers(data.value);
-
+          this.user = new User();
+          this.user.username = data.value.username;
+          this.user.email = data.value.email;
+          this.user.profile = "../assets/img/temp-profile.jpg";
+          this.user.status = data.value.status;
+          observable.next(this.user);
+          this.__notifyUserMountSubscribers(this.user);
          }else{
            this.user = null;
            observable.next(null);

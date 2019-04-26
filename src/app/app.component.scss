@@ -3,9 +3,11 @@ $horizontal-item-height: 50px;
 
 $vertical-item-height: 50px;
 $vertical-item-width: 50px;
+$vertical-section-min-height: 500px;
 
 $text-color: rgb(194,194,194);
 $header-background-color: rgb(16, 13, 22);
+$background-line-color: rgb(194,194,194);
 $header-background-color-hover: rgb(31, 28, 40);
 
 body{
@@ -48,6 +50,7 @@ body{
 }
 .vertical-header{
     height:100vh;
+    min-height: $vertical-section-min-height;
     width: $vertical-item-width;
     padding: 20px 0px 0px 0px;
     flex-direction: column;
@@ -95,6 +98,16 @@ body{
     display: inline-block;
     vertical-align: middle;
     border-radius: 20px;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+ 
+    /*
+      Introduced in IE 10.
+      See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+    */
+    -ms-user-select: none;
+    user-select: none;
 }
 
 
@@ -102,9 +115,64 @@ body{
     position: absolute;
     bottom: 0px;
 }
-
+#user-dropdown{
+    width: 200px;
+    right: 20px;
+    top: $horizontal-item-height - 3px;
+    position: absolute;
+}
+.dropdown{
+    box-sizing: border-box;
+    height: auto;
+    border: 1px $background-line-color solid;
+    border-radius: 3px;
+    background-color:white;
+}
+ul.dropdown-section{
+    list-style: none;
+    padding: 13px 0px;
+    margin:0;
+}
+#first-dropdown-section, #second-dropdown-section{
+    border-bottom: 1px $background-line-color solid;
+}
+.dropdown-item{
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    width: 198px;
+    margin: 1px 0px;
+    color: $header-background-color;
+}
+.dropdown-item a{
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    width: 198px;
+    margin: 1px 0px;
+}
+.dropdown-item span{
+    padding: 0px 15px;
+}
+.dropdown-section .clickable:hover{
+    cursor: pointer;
+    background-color: $header-background-color-hover;
+}
+.dropdown-section .clickable:hover span{
+    color:white;
+}
+.dropdown-item span{
+    font-family: Rubik,Lato,"Lucida Grande","Lucida Sans Unicode",Tahoma,Sans-Serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: $header-background-color;
+}
 .content{
     background-color:white;
     width: 100%;
     height: auto;
+}
+.vertical-content{
+    max-height: 100vh;
+    overflow-y: scroll;
 }

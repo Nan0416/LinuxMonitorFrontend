@@ -13,6 +13,9 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { PluginComponent } from './plugin/plugin.component';
 import { PlugindetailComponent } from './plugindetail/plugindetail.component';
+import { KeyManagementComponent } from './key-management/key-management.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CommonAgentInstanceComponent } from './common-plugin/common-agent-instance/common-agent-instance.component';
 //import { TargetComponent } from './target/target.component';
 //import { TargetDetailComponent } from './target-detail/target-detail.component';
 
@@ -47,11 +50,14 @@ export function watchLaterMatcher(url: UrlSegment[]){
   }
 }
 const routes: Route[]=[
+  { path: "", component: LoginPageComponent}, // login welcome page.
   { path: "activate/:code", component: ActivateComponent},
-  { path: "login", component: LoginPageComponent},
   { path: "user", component: UserPageComponent},
   { path: "plugin", component: PluginComponent},
   { path: "plugin/:name", component: PlugindetailComponent},
+  { path: "agent/common/:agent-id", component: CommonAgentInstanceComponent},
+  { path: "dashboard", component: DashboardComponent},
+  { path: "key", component: KeyManagementComponent},
   { path: "**", component: NotFoundComponent},
 ];
 
@@ -66,6 +72,9 @@ const routes: Route[]=[
     UserPageComponent,
     PluginComponent,
     PlugindetailComponent,
+    KeyManagementComponent,
+    DashboardComponent,
+    CommonAgentInstanceComponent,
   ],
   imports: [
     BrowserModule,

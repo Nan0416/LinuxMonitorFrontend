@@ -1,0 +1,13 @@
+<div class="wrapper">
+  <div class="agents">
+    <ul class="agents-section">
+      <li *ngFor="let agent of agents" class="agent-item">
+        <a [routerLink]="'/agent/' + agent.type + '/' + agent._id">
+          <span class="agent-info agent-name">{{agent.name}}</span>
+          <span class="agent-info agent-status">{{agent.status}}</span>
+          <span class="agent-info agent-type">{{agent.type}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
