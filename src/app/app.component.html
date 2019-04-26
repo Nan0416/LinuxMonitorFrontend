@@ -1,29 +1,31 @@
-<div id="top-nav">
-  <a class="nav-btn" routerLink="/">Home</a>
-  <a *ngIf="username" class="nav-btn top-nav-item" routerLink="/monitor">Monitor</a>
-  <a *ngIf="username" class="nav-btn top-nav-item" routerLink="/targets">Targets</a>
-  <span class="toolbar-filler"></span>
-  <a *ngIf="!username" class="nav-btn top-nav-item" routerLink="/login"><i class="fas fa-user"></i> Login / Sign up</a>
-  <div *ngIf="username" class="user-dropdown top-nav-item" routerLink="/user">
-    <span class="nav-btn">{{username}}</span>
-    <div id="user-dropdown-content">
-      <button class="nav-btn" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-      <a class="nav-btn" routerLink="/user">Account</a>
+<div id="main-wrapper" [ngClass]="{'wrapper': true, 'vertical-wrapper': isVertical, 'horizontal-wrapper': !isVertical}">
+    <div *ngIf="user != null" id="main-header" [ngClass]="{'header': true, 'vertical-header': isVertical, 'horizontal-header': !isVertical}">
+    <!--header-->
+
+    <!-- vertical header-->
+    <ul *ngIf="isVertical" id="first-header-section" class="header-section">
+      <li class="header-item"><a routerLink="/dashboard"><span><i class="fas fa-chart-line"></i></span></a></li>
+      <li class="header-item"><a routerLink="/docs"><span><i class="fas fa-folder-open"></i></span></a></li>
+      <li class="header-item"><a routerLink="/news"><span><i class="far fa-newspaper"></i></span></a></li>
+    </ul>
+    <!-- horizontal header -->
+    <ul *ngIf="!isVertical" id="first-header-section" class="header-section">
+      <li class="header-item"><a routerLink="/dashboard"><span>Dashboard</span></a></li>
+      <li class="header-item"><a routerLink="/docs"><span>Docs</span></a></li>
+      <li class="header-item"><a routerLink="/news"><span>News</span></a></li>
+    </ul>
+
+    <!--vertical header-->
+    <ul *ngIf="isVertical" id="second-header-section" class="header-section">
+      <li id="user-icon" class="header-item"><a routerLink="/user"><span style="display:inline-block;height:100%; vertical-align: middle;"></span><img width="35px" height="35px" [src]="user.profile"></a></li>
+    </ul>
+
+    <!--horizontal header-->
+    <ul *ngIf="!isVertical" id="second-header-section" class="header-section">
+      <li id="user-icon" class="header-item"><span style="display:inline-block;height:100%; vertical-align: middle;"></span><img width="40px" height="40px" [src]="user.profile"></li>
+    </ul>
     </div>
-  </div>
-
-  <button class="nav-btn nav-toggle" (click)="sidenavToggle()">
-    <i class="fas fa-bars" [ngStyle]="{'display': display_menu}"></i>
-    <i class="fas fa-times" [ngStyle]="{'display': display_close}"></i>
-  </button> 
+    <div id="main-content" class="content">
+        <router-outlet></router-outlet>
+    </div>
 </div>
-<div id="hidden-block" [ngStyle]="{'display': display_hidden_block}">
-    <a *ngIf="username" class="nav-btn" routerLink="/monitor">Monitor</a>
-    <a *ngIf="username" class="nav-btn" routerLink="/targets">Targets</a>
-    <a *ngIf="!username" class="nav-btn" routerLink="/login"><i class="fas fa-user"></i> Login / Sign up</a>
-    <a *ngIf="username" class="nav-btn" routerLink="/user">{{username}}</a>
-    <button *ngIf="username" class="nav-btn" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-  
-
-</div>
-<router-outlet></router-outlet>

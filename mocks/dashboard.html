@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Linux Monitor (Dashboard)</title>
+  <base href="/"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="./assets/img/logo.png">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+  <style>
+  body{
+      padding: 0;
+      margin: 0;
+      border: 0;
+      background-color: white;
+      color: rgb(194,194,194);
+  }
+  .wrapper{
+    display: flex;
+  }
+  .veritcal-wrapper{
+    flex-direction: row;
+  }
+  .horizontal-wrapper{
+    flex-direction: column;
+  }
+  
+  .header .header-section .header-item:hover{
+      background-color: rgb(31, 28, 40);
+      color: white;
+      cursor: pointer;
+  }
+  .header{
+      background-color: rgb(16, 13, 22);
+      position:relative;
+      box-sizing: border-box;
+      display: flex;
+      margin:0;
+  }
+  .horizontal-header{
+      height: 50px;
+      width: 100%;
+      padding: 0 20px 0px 40px;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+  }
+  .vertical-header{
+      height:100vh;
+      width: 50px;
+      padding: 20px 0px 0px 0px;
+      flex-direction: column;
+  }
+  .header-section{
+      margin: 0;
+      border: 0;
+      padding: 0;
+      font-size: 0;
+  }
+  .horizontal-header .header-section{
+      height: 50px;
+  }
+  .vertical-header .header-section{
+      width: 50px;
+      display: flex;
+      flex-direction: column;
+  }
+  .header-item{
+      display: inline-block;
+      height: 50px;
+      line-height: 50px;
+      text-decoration: none;
+      text-align: center;
+  }
+  .horizontal-header .header-item{
+      width: 100px;
+  }
+  .vertical-header .header-item{
+      width: 50px;
+  }
+  .header-item span{
+    font-family: Rubik,Lato,"Lucida Grande","Lucida Sans Unicode",Tahoma,Sans-Serif;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  .horizontal-header #username-button{
+      width: 200px;
+  }
+  .vertical-header #second-header-section{
+      position: absolute;
+      bottom: 0px;
+  }
+
+  .content{
+      background-color:green;
+      width: 100%;
+      height: auto;
+  }
+  </style>
+</head>
+<body>
+<div id="main-wrapper" class="wrapper vertical-wrapper">
+    <div id="main-header" class="header vertical-header">
+    <!--header-->
+    <ul id="first-header-section" class="header-section">
+    <li class="header-item"><span><i class="fas fa-chart-line"></i></span></li>
+    <li class="header-item"><span><i class="fas fa-folder-open"></i></span></li>
+    <li class="header-item"><span><i class="far fa-newspaper"></i></span></li>
+    </ul>
+    <ul id="second-header-section" class="header-section">
+    <li id="username-button" class="header-item"><span><i class="fas fa-user"></i></span></li><!--Login / Sign up-->
+    </ul>
+    </div>
+    <div id="main-content" class="content">
+        content
+    </div>
+</div>
+</body>
+</html>

@@ -4,16 +4,17 @@ import { FormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import {RouterModule, Route, UrlSegment} from '@angular/router';
-import { AppComponent } from './app.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-// google material
 import {MatButtonModule} from '@angular/material/button';
 // self defined component
-import { MonitorComponent } from './monitor/monitor.component';
+import { AppComponent } from './app.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ActivateComponent} from './activate/activate.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { UserPageComponent } from './user-page/user-page.component';
-import { TargetComponent } from './target/target.component';
-import { TargetDetailComponent } from './target-detail/target-detail.component';
+import { PluginComponent } from './plugin/plugin.component';
+import { PlugindetailComponent } from './plugindetail/plugindetail.component';
+//import { TargetComponent } from './target/target.component';
+//import { TargetDetailComponent } from './target-detail/target-detail.component';
 
 // router
 
@@ -46,13 +47,12 @@ export function watchLaterMatcher(url: UrlSegment[]){
   }
 }
 const routes: Route[]=[
-  { path: "monitor", component: MonitorComponent},
-  { path: "monitor/:name", component: TargetDetailComponent},
+  { path: "activate/:code", component: ActivateComponent},
   { path: "login", component: LoginPageComponent},
-  { path: "targets", component: TargetComponent},
   { path: "user", component: UserPageComponent},
-  /*{ matcher: watchLaterMatcher, component: NotFoundComponent},*/
-  { path: "**", component: NotFoundComponent}
+  { path: "plugin", component: PluginComponent},
+  { path: "plugin/:name", component: PlugindetailComponent},
+  { path: "**", component: NotFoundComponent},
 ];
 
 
@@ -61,11 +61,11 @@ const routes: Route[]=[
   declarations: [
     AppComponent,
     NotFoundComponent,
-    MonitorComponent,
     LoginPageComponent,
+    ActivateComponent,
     UserPageComponent,
-    TargetComponent,
-    TargetDetailComponent
+    PluginComponent,
+    PlugindetailComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@ import {server_addr, url_prefix} from './config';
 export class UserOperationService {
 
 
-  service_url:string = server_addr + url_prefix;
+  urlprefix:string = server_addr + url_prefix;
   user: User = null;
 
   // Observable string sources
@@ -51,8 +51,8 @@ export class UserOperationService {
         this.__notifyUserUnMountSubscribers();
       }
     };
-    let isLoginUrl = `${this.service_url}/user/login/query`;
-    this.http.post(isLoginUrl, {}, {withCredentials: true }).subscribe(httpObserver);
+    let isLoginUrl = `${this.urlprefix}/user/query`;
+    this.http.get(isLoginUrl, {withCredentials: true }).subscribe(httpObserver);
   }
 
   login(id: string, password): Observable<User>{
@@ -77,10 +77,9 @@ export class UserOperationService {
         }
       };
       /////// login now ///////////
-      let loginUrl = `${this.service_url}/user/login`;
+      let loginUrl = `${this.urlprefix}/user/login`;
       let value = {username: id, password: password};
       this.http.post(loginUrl, value, {withCredentials: true }).subscribe(httpObserver);
-      //
     });
     return loginReq;
   }
@@ -108,8 +107,8 @@ export class UserOperationService {
        }
      };
      /////// login now ///////////
-     let loginUrl = `${this.service_url}/user/logout`;
-     this.http.post(loginUrl, {},{withCredentials: true }).subscribe(httpObserver);
+     let loginUrl = `${this.urlprefix}/user/logout`;
+     this.http.get(loginUrl, {withCredentials: true }).subscribe(httpObserver);
      //
    });
    return logoutReq;
@@ -137,7 +136,7 @@ export class UserOperationService {
        }
      };
      /////// signup now ///////////
-     let loginUrl = `${this.service_url}/user/signup`;
+     let loginUrl = `${this.urlprefix}/user/signup`;
      let value = {username: username, email:email, password: password};
      this.http.post(loginUrl, value, {withCredentials: true }).subscribe(httpObserver);
      //

@@ -1,0 +1,5 @@
+body{
+    header: 100%/50px{
+        width: = 20 padding + 3 * 100 + 1 * 200 + 40 padding= 560px
+    }
+}

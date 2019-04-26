@@ -1,68 +1,76 @@
 import { Component , OnInit} from '@angular/core';
 import {Router, NavigationEnd} from '@angular/router';
 import { UserOperationService } from './services/user-operation.service';
-import { TargetOperationService } from './services/target-operation.service';
-import { DataContainerService } from './services/data-container.service';
+import { WindowResizeService } from './services/window-resize.service';
+import { User } from './data-structures/User';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  display_hidden_block: string = "none";
-  display_menu: string = "block";
-  display_close: string = "none";
+  verticalWidth: Number = 560;
+  isVertical: boolean = true;
+  user: User = null;
+
   constructor(
     private router: Router,
     private userOperator: UserOperationService,
-    private targetOperator: TargetOperationService,
-    private dataContainer: DataContainerService
-  ){ }
-  username: string = null;
-  ngOnInit(){
+    private windowResize: WindowResizeService,
+  ){ 
+    this.user = new User(); 
+    this.user.username = "qinnan";
+    this.user.email = "qinnan0416@gmail.com";
+    this.user.status = 1;
+    this.user.profile = "../assets/img/temp-profile.jpg";
     
+  }
+
+  
+  /**
+   * The initialization of the app
+   * 1. setup subscriber. listen user login, user logout
+   *                      listen the modification of url.
+   * 
+   * 2. test if a valid user session exist, auto login.
+   *  */
+  ngOnInit(){
+    this.isVertical = this.windowResize.getWidth() < this.verticalWidth;
+    this.windowResize.listenWidthThreshold(this.verticalWidth).subscribe(width=>{
+      console.log("invoked");
+      if(width >= this.verticalWidth){
+        this.isVertical = false;
+      }else{
+        this.isVertical = true;
+      }
+    });
     this.router.events.subscribe((evt)=>{
       if(!(evt instanceof NavigationEnd)){
         return;
       }
-      this.display_hidden_block  = "none";
-      this.display_menu  = "block";
-      this.display_close  = "none";
+     
     });
     this.userOperator.userMount$.subscribe(data=>{
-      this.username = data.username;
-      this.targetOperator.ws_open();
-      this.targetOperator.ws_subscribe();
-      this.targetOperator.queryTargets();
-      this.dataContainer.init();
+     
+      //this.targetOperator.ws_open();
+      //this.targetOperator.ws_subscribe();
+      //this.targetOperator.queryTargets();
+      //this.dataContainer.init();
     });
     this.userOperator.userUnMount$.subscribe(data=>{
-      this.username = null;
-      this.dataContainer.clear();
-      this.targetOperator.ws_close();
+     
+      //this.dataContainer.clear();
+      //this.targetOperator.ws_close();
     });
     this.userOperator.queryUserWithSession();
-    this.targetOperator.queryTargets();
+    //this.targetOperator.queryTargets();
   }
 
-
-
-  sidenavToggle(){
-    if(this.display_hidden_block === 'none'){
-      this.display_hidden_block = 'flex';
-      this.display_close = "block";
-      this.display_menu = "none";
-    }else if(this.display_hidden_block === 'flex'){
-      this.display_hidden_block = 'none';
-      this.display_close = "none";
-      this.display_menu = "block";
-    }
-  }
   logout(){
     this.userOperator.logout().subscribe(data=>{
       if(data.success){
         this.router.navigate(["login"]);
-        this.targetOperator.ws_close();
+        //this.targetOperator.ws_close();
         // clear
       }else{
         //show err
