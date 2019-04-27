@@ -16,6 +16,7 @@ import { PlugindetailComponent } from './plugindetail/plugindetail.component';
 import { KeyManagementComponent } from './key-management/key-management.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CommonAgentInstanceComponent } from './common-plugin/common-agent-instance/common-agent-instance.component';
+import { AccountComponent } from './account/account.component';
 //import { TargetComponent } from './target/target.component';
 //import { TargetDetailComponent } from './target-detail/target-detail.component';
 
@@ -58,6 +59,7 @@ const routes: Route[]=[
   { path: "agent/common/:agent-id", component: CommonAgentInstanceComponent},
   { path: "dashboard", component: DashboardComponent},
   { path: "key", component: KeyManagementComponent},
+  { path: "account", component: AccountComponent},
   { path: "**", component: NotFoundComponent},
 ];
 
@@ -75,6 +77,7 @@ const routes: Route[]=[
     KeyManagementComponent,
     DashboardComponent,
     CommonAgentInstanceComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,

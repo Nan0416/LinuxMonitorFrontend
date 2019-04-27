@@ -27,6 +27,10 @@ export class CommonAgentInstanceService {
        next: data=>{
          if(data.success && data.value){
            this.data = data.value;
+           for(let i = 0; i < this.data.length; i++){
+              this.data[i].createdAt = new Date(this.data[i].createdAt);
+              this.data[i].updatedAt = new Date(this.data[i].updatedAt);
+            }
            observable.next(data.value);
          }else{ 
            this.data = [];

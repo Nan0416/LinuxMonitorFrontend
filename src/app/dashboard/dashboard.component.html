@@ -1,13 +1,23 @@
 <div class="wrapper">
-  <div class="agents">
-    <ul class="agents-section">
-      <li *ngFor="let agent of agents" class="agent-item">
-        <a [routerLink]="'/agent/' + agent.type + '/' + agent._id">
-          <span class="agent-info agent-name">{{agent.name}}</span>
-          <span class="agent-info agent-status">{{agent.status}}</span>
-          <span class="agent-info agent-type">{{agent.type}}</span>
-        </a>
-      </li>
-    </ul>
+    <div class="header responsive-header">
+      <div id="first-header-section" class="header-section">
+        <span>Dashboard</span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="content-section agent-section">
+        <span class="content-section-title">Agent Instances</span>
+        <ul class="content-item-list">
+          <li class="content-item content-item-header">
+            <span class="agent-name">Agent Instance Name</span>
+            <span class="agent-status">Status</span>
+          </li>
+          <li *ngFor="let agent of agents" class="content-item">
+            <a [routerLink]="'/agent/' + agent.type + '/' + agent._id" class="agent-name">{{agent.name}}</a>
+            <span class="agent-status">{{agent.status}}</span>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
   </div>
-</div>

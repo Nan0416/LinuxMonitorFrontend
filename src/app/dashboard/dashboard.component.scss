@@ -1,32 +1,22 @@
-$text-color: rgb(194,194,194);
-$header-background-color: rgb(16, 13, 22);
-$background-line-color: rgb(194,194,194);
-$header-background-color-hover: rgb(31, 28, 40);
 
-ul{
-    list-style: none;
-    padding: 0;
-    margin:0;
-    border:0;
-}
-.agents{
-    margin: 30px;
-}
-a{
-    text-decoration: none;
+/* just for agent */
+.content-item-list{
 
+    overflow-x: scroll !important;
 }
-.agent-item{
-    border-bottom: 1px $background-line-color solid;
+.content-item{
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 450px;
 }
-.agent-info{
-    font-family: Rubik,Lato,"Lucida Grande","Lucida Sans Unicode",Tahoma,Sans-Serif;
-    font-weight: 500;
-    font-size: 14px;
-    color: $header-background-color;
-    
-    display: inline-block;
-    height: 20px;
-    line-height: 20px;
-    padding: 5px 10px;
+.content-item > button, .content-item > a, .content-item > span{
+    min-height: 35px;
+    line-height: 35px;
+}
+.agent-name{
+    width: 350px;
+}
+.agent-status{
+    width: 50px;
+    text-align: center;
 }

@@ -12,6 +12,6 @@ export class CommonMetrics{
     memtotal: number;
     memfree: number;
     memavail: number;
-    createAt: Date;
-    updateAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }

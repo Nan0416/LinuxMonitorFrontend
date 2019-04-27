@@ -1,3 +1,7 @@
+$text-color: rgb(194,194,194);
+$header-background-color: rgb(16, 13, 22);
+$background-line-color: rgb(194,194,194);
+$header-background-color-hover: rgb(31, 28, 40);
 
 .container{
     display: flex;
@@ -14,6 +18,8 @@
         align-items: center;   
         svg{
             width: 80%;
+            height: 200px;
+            border: 1px solid $background-line-color;
         } 
     }    
 }
@@ -21,5 +27,5 @@
 .line-plot {
     fill: none;
     stroke-width: 3px;
-    stroke: red;
+    stroke: $header-background-color;
 }

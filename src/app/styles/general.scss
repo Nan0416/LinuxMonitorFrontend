@@ -1,4 +1,4 @@
-@import '../styles/base.scss';
+@import './base.scss';
 div{
     margin:0;
     padding:0;
@@ -15,7 +15,7 @@ span{
     width: 100%;
     position: relative;
 }
-
+/* header */
 .header{
     display: flex;
     box-sizing: border-box;
@@ -68,6 +68,7 @@ span{
     width: 100%;
     box-sizing: border-box;
     background-color: $content-background;
+    margin: 20px;
     .content-section-title{
         box-sizing: border-box;
         display: inline-block;
@@ -78,11 +79,9 @@ span{
         border-bottom: $content-border;
     }
 }
-.agent-section{
-    margin: 20px;
-}
+
 @media(max-width: $width-threshold){
-    .agent-section{
+    .content-section{
         margin: 20px 0px;
     }
 }
@@ -98,12 +97,13 @@ span{
         display: flex;
     }
 }
-.content-item button, .content-item a, .content-item span{
+.content-item > button, .content-item > a, .content-item > span{
     display: inline-block;
     box-sizing: border-box;
     border:0; padding:0; margin:0;
     word-wrap:break-word;
     word-break:break-all;
+    color: $text-color;
 }
 .content-item-header{
     padding: 7px 20px !important;
@@ -114,4 +114,30 @@ span{
     min-height: 20px !important;
     line-height: 20px !important;
     font-weight: 700 !important;
+}
+
+
+
+/* hint */
+.hint{
+    cursor: pointer; 
+    position: relative;  
+}
+.hint-box{
+    display: none !important;
+    box-sizing: border-box;
+    word-wrap:break-word;
+    word-break:break-all;
+    color: white;
+    font-weight: 200;
+    font-size: 12px;
+    height: auto !important;
+    line-height: 18px !important;
+    border-radius: 5px;
+    border: $hint-box-border;
+    position: absolute;
+    background-color: $hint-box-background;
+    background-color: $hint-box-background-2;
+    padding: 15px;
+   
 }

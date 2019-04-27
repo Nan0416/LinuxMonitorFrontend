@@ -1,3 +1,5 @@
+
+@import './styles/base.scss';
 $horizontal-item-width: 100px;
 $horizontal-item-height: 50px;
 
@@ -11,7 +13,6 @@ $background-line-color: rgb(194,194,194);
 $header-background-color-hover: rgb(31, 28, 40);
 
 body{
-    background-color: white;
     color: $text-color;
 }
 .wrapper{
@@ -122,6 +123,7 @@ body{
     position: absolute;
 }
 .dropdown{
+    z-index: 400;
     box-sizing: border-box;
     height: auto;
     border: 1px $background-line-color solid;
@@ -168,11 +170,54 @@ ul.dropdown-section{
     color: $header-background-color;
 }
 .content{
-    background-color:white;
     width: 100%;
     height: auto;
 }
 .vertical-content{
     max-height: 100vh;
     overflow-y: scroll;
+}
+
+/* footer */
+
+.footer{
+    display: flex;
+    box-sizing: border-box;
+    height: auto; /* 1px border + 20padding + 30 content + 20 padding*/
+    width: 100%;
+    background-color: $footer-background;
+}
+.responsive-footer{
+    flex-direction: row;
+    justify-content: space-between;
+    padding: $header-padding-horizontal;
+}
+@media (max-width: $width-threshold) {
+    // go vertical
+    .responsive-footer{
+        
+        flex-direction: column;
+        align-content: center;
+        padding: $header-padding-vertical;
+    }
+}
+.footer-section{
+    min-height: 30px;
+    padding: 0 40px;
+    //background-color: green;
+    text-align: center;
+}
+.footer-section span{
+    display: inline-block;
+    min-height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    font-size: 13px;
+    color: $header-background-color;
+}
+#first-footer-section span{
+    text-align: left;
+}
+#second-footer-section span{
+    text-align: right;
 }

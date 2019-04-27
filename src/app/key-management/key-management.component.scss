@@ -1,0 +1,41 @@
+@import '../styles/base.scss';
+/* just for keys */
+.key-item{
+    display: block !important;
+    box-sizing: border-box;
+    width: 100%;
+    span{
+        display: block !important;
+        padding: 14px 0px;
+        word-wrap:break-word;
+         word-break:break-all;  
+    }
+}
+.key-value{
+    min-height: 20px;
+    line-height: 20px;
+    font-size: 12px;
+}
+.key-control{
+    button{
+        margin:2px 10px 0 0;
+    }
+}
+    
+
+
+#key-hint:hover+#key-hint-box{
+    display: block !important;
+}
+#key-hint-box{
+    width: 300px;
+    top: 30px;
+    right: 60px;
+}
+
+
+@media(max-width: $width-threshold){
+    #key-hint-box{
+        left:0px;
+    }
+}

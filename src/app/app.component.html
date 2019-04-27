@@ -44,5 +44,13 @@
     </div>
     <div id="main-content" [ngClass]="{'content': true, 'vertical-content': isVertical}">
         <router-outlet></router-outlet>
+        <div id="main-footer" class="footer responsive-footer">
+          <div id="first-footer-section" class="footer-section">
+            <span>monitor.sousys.com</span><a href="https://github.com/Nan0416" target="_blank"><span>Github</span></a>
+          </div>
+          <div id="second-footer-section" class="footer-section">
+              <a href = "mailto:support@sousys.com"><span>Email: support@sousys.com</span></a>
+          </div>
+        </div>
     </div>
 </div>

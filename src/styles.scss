@@ -1,13 +1,49 @@
 /* You can add global styles to this file, and also import other style files */
+$content-background: rgb(245, 248, 250);
+$content-border: 1px rgb(230, 233, 236) solid;
+$text-color: rgb(55,74,96);
+$text-color-selected: rgb(45, 40, 45);
+
+$content-border: 1px rgb(230, 233, 236) solid;
 body {
     margin: 0;
     padding: 0;
     border: 0;
     min-width: 400px;
+    background-color:$content-background;
  }
  a{
      text-decoration: none;
+     color:none;
  }
  a:active{
      text-decoration: none;
  }
+ ul{
+     list-style: none;
+ }
+ button{
+    display: inline-block;
+    box-sizing: border-box;
+    border: $content-border;
+    border-radius: 12px;
+    outline: none;
+    color: $text-color;
+    cursor: pointer;
+    height: 24px;
+    width: 80px;
+    
+    font-size: 14px;
+    font-weight: 400;
+ }
+ button:hover{
+     color: black;
+     font-weight: 300;
+ }
+ span{
+    font-family: Rubik,Lato,"Lucida Grande","Lucida Sans Unicode",Tahoma,Sans-Serif;
+ }
+
+
+
+ 

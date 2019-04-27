@@ -4,7 +4,7 @@ import { AgentMeta } from '../data-structures/AgentMeta';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['../styles/general.scss', './dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
 
