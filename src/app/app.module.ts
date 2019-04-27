@@ -15,11 +15,14 @@ import { PluginComponent } from './plugin/plugin.component';
 import { PlugindetailComponent } from './plugindetail/plugindetail.component';
 import { KeyManagementComponent } from './key-management/key-management.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CommonAgentInstanceComponent } from './common-plugin/common-agent-instance/common-agent-instance.component';
 import { AccountComponent } from './account/account.component';
+import { CommonAgentInstanceComponent } from './common-plugin/common-agent-instance/common-agent-instance.component';
+import { CommonSettingsComponent } from './common-plugin/common-settings/common-settings.component';
 //import { TargetComponent } from './target/target.component';
 //import { TargetDetailComponent } from './target-detail/target-detail.component';
+//Service
 
+import {AgentmetaResolverService} from './services/resolvers/agentmeta-resolver.service';
 // router
 
 export function metaListMatcher(url: UrlSegment[]) {
@@ -56,7 +59,12 @@ const routes: Route[]=[
   { path: "user", component: UserPageComponent},
   { path: "plugin", component: PluginComponent},
   { path: "plugin/:name", component: PlugindetailComponent},
-  { path: "agent/common/:agent-id", component: CommonAgentInstanceComponent},
+  { path: "agent/common/:agent-id", component: CommonAgentInstanceComponent, 
+    /*resolve:{
+      agentMeta: AgentmetaResolverService 
+    }*/
+  },
+  { path: "agent/common/settings/:agent-id", component: CommonSettingsComponent},
   { path: "dashboard", component: DashboardComponent},
   { path: "key", component: KeyManagementComponent},
   { path: "account", component: AccountComponent},
@@ -76,8 +84,9 @@ const routes: Route[]=[
     PlugindetailComponent,
     KeyManagementComponent,
     DashboardComponent,
-    CommonAgentInstanceComponent,
     AccountComponent,
+    CommonAgentInstanceComponent,
+    CommonSettingsComponent,
   ],
   imports: [
     BrowserModule,

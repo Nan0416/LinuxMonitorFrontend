@@ -1,14 +1,65 @@
-<div class="container">
-    <div class="panel" id="loadavg">
-      <svg id="loadavg-svg"></svg>
+<div class="wrapper">
+    <div class="header responsive-header">
+        <div id="first-header-section" class="header-section">
+          <span class="agent-name">{{agentMeta.name}}</span>
+        </div>
+        <div id="second-header-section" class="header-section">
+          <a class="btn btn-large" [routerLink]="'/agent/common/settings/' + agentMeta._id">Settings</a>
+        </div>
+      </div>
+      <div class="content">
+        <div class="content-section agent-section">
+          <div id="agent-control-panel">
+            <span>
+              System Metrics
+            </span>
+            <!--<div class="selection">
+              <span>1 min</span>
+              <span>15 min</span>
+              <span>30 min</span>
+              <span>1 hour</span>
+              <span>1 day</span>
+            </div>-->
+          </div>
+          <ul class="content-item-list">
+            <!--system load path -->
+            <li class="content-item metric-item">
+              <div class="legend">
+                <span>System Average Load</span>
+              </div>
+              <div class="panel">
+                <svg id="loadavg-svg" class="figure"></svg>
+              </div>
+            </li>
+            <!--cpu path -->
+            <li class="content-item metric-item">
+                <div class="legend">
+                  <span>CPU</span>
+                </div>
+                <div class="panel">
+                  <svg id="cpu-svg" class="figure"></svg>
+                </div>
+            </li>
+            <!--memory  path -->
+            <li class="content-item metric-item">
+                <div class="legend">
+                  <span>Memory</span>
+                </div>
+                <div class="panel">
+                  <svg id="memory-svg" class="figure"></svg>
+                </div>
+            </li>
+            <!--disk path -->
+            <li class="content-item metric-item">
+                <div class="legend">
+                  <span>Disk IO</span>
+                </div>
+                <div class="panel">
+                  <svg id="disk-svg" class="figure"></svg>
+                </div>
+              </li>
+          </ul>
+        </div>
     </div>
-    <div class="panel" id="CPU">
-      <svg id="CPU-svg"></svg>
-    </div>
-    <div class="panel" id="memory">
-      <svg id="memory-svg"></svg>
-    </div>
-    <div class="panel" id="diskIO">
-      <svg id="diskIO-svg"></svg>
-    </div>
+   
 </div>

@@ -1,0 +1,39 @@
+<div class="wrapper" *ngIf="agentId">
+    <div class="header responsive-header">
+        <div id="first-header-section" class="header-section">
+          <span>Settings</span>
+        </div>
+        <div id="second-header-section" class="header-section">
+          <a class="btn btn-large" [routerLink]="'/agent/common/' + agentMeta._id">Go Back</a>
+        </div>
+      </div>
+      <div class="content">
+        <div class="content-section setting-section">
+          <span class="content-section-title">General</span>
+          <ul class="content-item-list">
+            <li class="content-item">
+              <div class="legend">
+
+              </div>
+              <div class="panel" id="loadavg">
+                <svg id="loadavg-svg"></svg>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="content-section setting-section">
+            <span class="content-section-title">Alerts</span>
+            <ul class="content-item-list">
+              <li class="content-item">
+                <div class="legend">
+  
+                </div>
+                <div class="panel" id="loadavg">
+                  <svg id="loadavg-svg"></svg>
+                </div>
+              </li>
+            </ul>
+          </div>
+    </div>
+   
+</div>

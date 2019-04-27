@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
       console.log(agents);
       this.agents = agents;
     });
-    this.agentService.queryAgentMeta();
+    this.agentService.queryAgentMetaAll();
   }
 
 }

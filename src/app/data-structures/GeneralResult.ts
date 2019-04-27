@@ -1,5 +1,5 @@
 export class Result{
-    value:string;
+    value: any;
     reasons:string[];
     success: boolean;
 }

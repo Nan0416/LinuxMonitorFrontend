@@ -1,92 +1,281 @@
-import { Component, OnInit , OnDestroy} from '@angular/core';
+import { Component, OnInit , OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import { CommonAgentInstanceService } from '../service/common-agent-instance.service';
 import { CommonMetrics } from '../data-structure/common-metrics';
+import {AgentService } from '../../services/agent.service';
+import {AgentMeta} from '../../data-structures/AgentMeta';
+import {WindowResizeService} from '../../services/window-resize.service';
 import * as d3 from "d3";
+
 @Component({
   selector: 'app-common-agent-instance',
   templateUrl: './common-agent-instance.component.html',
-  styleUrls: ['./common-agent-instance.component.scss']
+  styleUrls: ['../../styles/general.scss', './common-agent-instance.component.scss']
 })
 export class CommonAgentInstanceComponent implements OnInit, OnDestroy {
+
+  period = 60; // seconds  
 
   agentId: string = null;
   handle = null;
   data: CommonMetrics[] = [];
+  agentMeta: AgentMeta = null;
 
+  padding_left = 30;
+  padding_bottom = 17;
+  padding_top = 10;
+  padding_right = 0;
+  
+  loadPath = null;
+  cpuPath = null;
+  cpuUserPath = null;
+  diskReadPath = null;
+  diskWritePath = null;
+  memoryUsedPath = null;
+
+  timeScale = null; 
+  
+  loadScale = null; 
+  cpuScale = null;
+  diskScale = null;
+  memoryScale = null; 
+  
+  loadFun: Function = null;
+  cpuFun: Function = null;
+  cpuUserFun: Function= null;
+  diskReadFun: Function = null;
+  diskWriteFun: Function = null;
+  memoryUsedFun: Function = null;
+
+  /* X axis */
+  timeAxis = null;
+
+  loadTimeAxisHtml = null;
+  cpuTimeAxisHtml = null;
+  diskTimeAxisHtml = null;
+  memoryTimeAxisHtml = null;
+
+  /* Y axis */
+  cpuAxis = null;
+  loadAxis = null;
+  diskAxis = null;
+  memoryAxis = null;
+
+  cpuAxisHtml = null;
+  loadAxisHtml = null;
+  diskAxisHtml = null;
+  memoryAxisHtml = null;
+  
+  /* = d3.line()
+        .x((d)=>{ return this.timeScale(d.createdAt);})
+        .y((d)=>{ return this.loadScale(d.loadavg[0]);})
+        .curve(d3.curveBasis);*/
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private agentService: CommonAgentInstanceService
+    private agentService: AgentService,
+    private commonAgentService: CommonAgentInstanceService,
+    private elRef:ElementRef,
+    private windowResize: WindowResizeService
   ) { 
-    
+   
   }
 
   ngOnInit() {
-    this.agentId = this.route.snapshot.paramMap.get('agent-id');
-    this.scaleTimeRange();
-
+    this.agentId =  this.agentId = this.route.snapshot.paramMap.get('agent-id');
+    this.agentService.queryAgentMetaById(this.agentId).subscribe(data=>{
+      this.agentMeta = data;
+    })
+    console.log(this.agentMeta);
     this.repeatQuery(2000);
   }
   ngOnDestroy(){
     this.stopQuery();
   }
   ngAfterViewInit(){
-    this.loadPath = d3.select('#loadavg-svg').append('g').append('path');
+    let widthT = parseFloat(d3.select('#cpu-svg').style("width"));
+    let heightT = parseFloat(d3.select('#cpu-svg').style("height"));
+    
+  
+    let width = widthT - this.padding_left - this.padding_right;
+    let height = heightT - this.padding_bottom - this.padding_top;
+
+    this.loadPath = d3.select('#loadavg-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`).append('path');
+    this.cpuPath = d3.select('#cpu-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`).append('path');
+    this.cpuUserPath = d3.select('#cpu-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`).append('path');
+    this.diskReadPath = d3.select('#disk-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`).append('path');
+    this.diskWritePath = d3.select('#disk-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`).append('path');
+    this.memoryUsedPath = d3.select('#memory-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`).append('path');
+
+    this.loadPath.attr('class', 'line-plot').attr('fill', 'none').attr('stroke', "red").attr('stroke-width', '2px');
+    this.cpuPath.attr('class', 'line-plot').attr('fill', 'none').attr('stroke', "red").attr('stroke-width', '2px');
+    this.cpuUserPath.attr('class', 'line-plot').attr('fill', 'none').attr('stroke', "blue").attr('stroke-width', '2px');
+    this.diskReadPath.attr('class', 'line-plot').attr('fill', 'none').attr('stroke', "red").attr('stroke-width', '2px');
+    this.diskWritePath.attr('class', 'line-plot').attr('fill', 'none').attr('stroke', "red").attr('stroke-width', '2px');
+    this.memoryUsedPath.attr('class', 'line-plot').attr('fill', 'none').attr('stroke', "red").attr('stroke-width', '2px');
+
+    /** X axis html */
+    this.loadTimeAxisHtml = d3.select('#loadavg-svg').append('g').attr('transform', `translate(${this.padding_left},${heightT - this.padding_bottom})`);
+    this.cpuTimeAxisHtml = d3.select('#cpu-svg').append('g').attr('transform', `translate(${this.padding_left},${heightT - this.padding_bottom})`);
+    this.diskTimeAxisHtml = d3.select('#disk-svg').append('g').attr('transform', `translate(${this.padding_left},${heightT - this.padding_bottom})`);
+    this.memoryTimeAxisHtml = d3.select('#memory-svg').append('g').attr('transform', `translate(${this.padding_left},${heightT - this.padding_bottom})`);
+    /* Y asix html */
+    this.loadAxisHtml = d3.select('#loadavg-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`);
+    this.cpuAxisHtml = d3.select('#cpu-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`);
+    this.memoryAxisHtml = d3.select('#memory-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`);
+    this.diskAxisHtml = d3.select('#disk-svg').append('g').attr('transform', `translate(${this.padding_left},${this.padding_top})`);
+
+
+    this.timeScale = d3.scaleTime().range([0, width]);// .domain([])
+    this.loadScale = d3.scaleLinear().range([height,0]).domain([0, 1]);
+    this.cpuScale = d3.scaleLinear().range([height,0]).domain([0, 1]);
+    this.diskScale = d3.scaleLinear().range([height,0]) ;//.domain([0, 1]);
+    this.memoryScale = d3.scaleLinear().range([height,0]); //.domain([0, 1]); 
+    
+    this.timeAxis =d3.axisBottom(this.timeScale).ticks(6).tickFormat((d)=>{
+      console.log(d);
+      let i = d.getSeconds();
+      if(i < 10){
+        i = "0" + i;
+      }
+      return d.getMinutes() + ":" + i;
+    });
+    
+    this.loadAxis = d3.axisLeft(this.loadScale).ticks(4).tickSizeInner(-width);
+    this.memoryAxis = d3.axisLeft(this.memoryScale).ticks(6).tickSizeInner(-width);
+    this.cpuAxis = d3.axisLeft(this.cpuScale).ticks(2).tickSizeInner(-width);
+    this.diskAxis = d3.axisLeft(this.diskScale).ticks(4).tickSizeInner(-width)
+
+
+    this.loadFun = d3.line()
+      .x((d)=>{ return this.timeScale(d.createdAt);})
+      .y((d)=>{ return this.loadScale(d.loadavg[0]);})
+      .curve(d3.curveBasis);
+    
+    this.cpuFun = d3.line()
+      .x((d)=>{ return this.timeScale(d.createdAt);})
+      .y((d)=>{ return this.cpuScale(d.cpuuser + d.cpusys);})
+      .curve(d3.curveBasis);
+    
+    this.cpuUserFun = d3.line()
+      .x((d)=>{ return this.timeScale(d.createdAt);})
+      .y((d)=>{ return this.cpuScale(d.cpuuser);})
+      .curve(d3.curveBasis);
+
+    this.diskReadFun = d3.line()
+      .x((d)=>{ return this.timeScale(d.createdAt);})
+      .y((d)=>{ return this.diskScale(d.disk[0].read);})
+      .curve(d3.curveBasis);
+    
+    this.diskReadFun = d3.line()
+      .x((d)=>{ return this.timeScale(d.createdAt);})
+      .y((d)=>{ return this.diskScale(d.disk[0].write);})
+      .curve(d3.curveBasis);
+
+    this.memoryUsedFun = d3.line()
+      .x((d)=>{ return this.timeScale(d.createdAt);})
+      .y((d)=>{ return this.memoryScale(d.memtotal - d.memavail);})
+      .curve(d3.curveBasis);
+
+    this.repeatQuery(2000);
+    this.windowResize.reasize$.subscribe(()=>{
+      // resize
+      console.log('resize');
+      
+      let widthT = parseFloat(d3.select('#cpu-svg').style("width"));
+      let width = widthT - this.padding_left - this.padding_right;
+
+      this.loadAxis.tickSizeInner(-width);
+      this.cpuAxis.tickSizeInner(-width);
+      this.memoryAxis.tickSizeInner(-width);
+      this.diskAxis.tickSizeInner(-width);
+
+
+      this.timeScale.range([0, width]);
+
+      this.drawPaths();
+    });
   }
 
   _lastTimeStamp: number = -1;
   repeatQuery(period: number){
     this.handle = setInterval(()=>{
-      this.agentService.queryData(this.agentId, this._lastTimeStamp).subscribe((data: CommonMetrics[])=>{
-        this.scaleTimeDomain(data);
-        this.drawLoad(data);
-        
+      console.log("query...")
+      this.commonAgentService.queryData(this.agentId, this._lastTimeStamp).subscribe((data: CommonMetrics[])=>{
+        console.log("get new data from ....", new Date(this._lastTimeStamp),data);
+        this.loopData(data);
+        console.log(this.data);
+        this.drawPaths();
       });
     }, period);
   }
   stopQuery(){
     if(this.handle != null){
       clearInterval(this.handle);
+      this.handle == null;
     }
   }
-
-
-  //UI
-  //window resize
-
-  timeScale = d3.scaleTime(); //.range([0, this.chartWidth]); .domain([])
-  loadScale = d3.scaleLinear().range([200,0]).domain([0, 1]);
-  
-  scaleTimeRange(){
-    // set listen
-    /*window.onresize = (e) =>
-    {
-      let width = d3.select('#loadavg-svg').style('width');
-      let widthnum = parseFloat(width);
-      this.timeScale.range([0, widthnum]);
-    };*/
-  }
-
-  scaleTimeDomain(data: CommonMetrics[]){
-    let begin = data[0].createdAt;
-    let end = data[data.length - 1].createdAt;
+  loopData(data){
+    if(data.length == 0){return;}
+    // assume in .createdAt order.
+    // integrate data, remove expired data
+    this.data = this.data.concat(data);
+    let currentTimestamp = (new Date()).getTime(); //ms
+    let validTimestamp = currentTimestamp - this.period * 1000;
+    let flag = 0; // assume all valid.
+    for(let i = this.data.length - 1; i >= 0;  i--){
+      if(this.data[i].createdAt.getTime() < validTimestamp){
+        flag = i + 1;
+        break;
+      }
+    }
+    this.data = this.data.slice(flag, this.data.length);
+    // update time domain
+    let begin = this.data[0].createdAt;
+    let end = this.data[this.data.length - 1].createdAt;
+    this._lastTimeStamp = end.getTime();
     this.timeScale.domain([begin, end]);
+    
+    // update disk, memory scale
+    let diskmax = 1000,  memtotal = 4194304, load = 1; // 4GB
+    if(this.data.length > 0){
+      memtotal = this.data[0].memtotal;
+      load = this.data[0].corenum;
+    }
+    this.loadScale.domain([0, load]);
+    this.memoryScale.domain([0, memtotal]);
+    this.diskScale.domain([0, diskmax]);
 
   }
-  __loadFun: Function = d3.line()
-        .x((d)=>{ return this.timeScale(d.createdAt);})
-        .y((d)=>{ return this.loadScale(d.loadavg[0]);})
-        .curve(d3.curveBasis);
-  loadPath = null; 
-  
-  drawLoad(pathdata){
+
+  drawPaths(){
+    this.loadTimeAxisHtml.call(this.timeAxis);
+    this.cpuTimeAxisHtml.call(this.timeAxis);
+    this.diskTimeAxisHtml.call(this.timeAxis);
+    this.memoryTimeAxisHtml.call(this.timeAxis);
+
+    this.loadAxisHtml.call(this.loadAxis);
+    this.cpuAxisHtml.call(this.cpuAxis);
+    this.memoryAxisHtml.call(this.memoryAxis);
+    this.diskAxisHtml.call(this.diskAxis);
+    //console.log(this.timeAxisHtml);
     this.loadPath
-      .datum(pathdata)
-      .attr('class', 'line-plot')
-      .attr('fill', 'none')
-      .attr('stroke', "red")
-      .attr('stroke-width', '2px')
-      .attr('d', this.__loadFun);
+      .datum(this.data)
+      .attr('d', this.loadFun);
+    this.cpuUserPath
+      .datum(this.data)  
+      .attr('d', this.cpuUserFun);
+    this.cpuPath
+      .datum(this.data)  
+      .attr('d', this.cpuFun);
+    this.memoryUsedPath
+      .datum(this.data)  
+      .attr('d', this.memoryUsedFun);
+    this.diskReadPath
+      .datum(this.data)  
+      .attr('d', this.diskReadFun);
+    this.diskWritePath
+      .datum(this.data)  
+      .attr('d', this.diskWriteFun);
   }
 }

@@ -21,8 +21,30 @@ export class AgentService {
   ) { 
     
   }
-
-  queryAgentMeta(){
+  queryAgentMetaById(id: string):  Observable<AgentMeta>{
+    const queryReq: Observable<AgentMeta> = new Observable((observable)=>{
+      console.log("query by id" + id + " running");
+      const httpObserver = {
+       next: data=>{
+         if(data.success && data.value){
+          console.log(data.value);
+          observable.next(data.value);
+         }else{
+          observable.next(null);
+         }
+       },
+       error: err=>{
+         observable.next(null);
+       }
+     };
+     /////// login now ///////////
+     let loginUrl = `${this.urlprefix}/agent/query/${id}`;
+     
+     this.http.get(loginUrl, {withCredentials: true }).subscribe(httpObserver);
+   });
+   return queryReq;
+  }
+  queryAgentMetaAll(){
     // GET https://monitor.sousys.com/web-api/agent/query
     const httpObserver = {
       next: data=>{

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-user-page',
   templateUrl: './user-page.component.html',
-  styleUrls: ['./user-page.component.scss']
+  styleUrls: ['../styles/general.scss','./user-page.component.scss']
 })
 export class UserPageComponent implements OnInit {
 
@@ -15,6 +15,7 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit() {
   }
+  
   logout(){
     this.userOperator.logout().subscribe(data=>{
       if(data.success){

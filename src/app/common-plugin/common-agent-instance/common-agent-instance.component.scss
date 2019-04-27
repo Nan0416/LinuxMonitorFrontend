@@ -1,31 +1,55 @@
-$text-color: rgb(194,194,194);
-$header-background-color: rgb(16, 13, 22);
-$background-line-color: rgb(194,194,194);
-$header-background-color-hover: rgb(31, 28, 40);
-
-.container{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    margin: 20px auto 20px auto;
-    width: 100%;
-    justify-content: center;
-    .panel{
-        
-        margin:10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;   
-        svg{
-            width: 80%;
-            height: 200px;
-            border: 1px solid $background-line-color;
-        } 
-    }    
+@import '../../styles/base.scss'; 
+.header-section{
+    min-width: 200px;
+    .agent-name{
+        max-width: 400px;
+        text-overflow: ellipsis;
+        /* Required for text-overflow to do anything */
+        white-space: nowrap;
+        overflow: hidden;
+    }
 }
 
-.line-plot {
-    fill: none;
-    stroke-width: 3px;
-    stroke: $header-background-color;
+#agent-control-panel{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 60px;
+    box-sizing: border-box;
+    padding: 0 20px;    
+    border-bottom: $content-border;
+    span{
+        height: 60px;
+        line-height: 60px;
+    }
+}
+@media(max-width: $width-threshold){
+    .agent-name{
+        max-width: 300px !important;
+    }
+    #agent-control-panel{
+        flex-direction: column;
+       
+    }
+}
+.panel{
+    width: 100%;
+    height: 150px;
+}
+.figure{
+    height: 100%;
+    width: 100%;
+}
+.metric-item{
+    display: flex;
+    flex-direction: column;
+    .legend{
+        height: 40px;
+        width: 100%;
+        span{
+            height: 40px;
+            line-height: 40px;
+        }
+    }
 }

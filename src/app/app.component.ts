@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
     this.isVertical = this.windowResize.getWidth() < this.verticalWidth;
     // set resize listener
     this.windowResize.listenWidthThreshold(this.verticalWidth).subscribe(width=>{
-      console.log("invoked");
+      console.log("app.component windows resize invoked");
       if(width >= this.verticalWidth){
         this.isVertical = false;
       }else{

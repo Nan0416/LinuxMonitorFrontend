@@ -29,6 +29,7 @@ span{
     justify-content: space-between;
     padding: $header-padding-horizontal;
 }
+
 @media (max-width: $width-threshold) {
     // go vertical
     .responsive-header{
@@ -36,9 +37,9 @@ span{
         padding: $header-padding-vertical;
     }
 }
+
 .header-section{
     min-height: 30px;
-    width: 200px;
     //background-color: green;
     font-family: Rubik,Lato,"Lucida Grande","Lucida Sans Unicode",Tahoma,Sans-Serif;
     font-weight: 500;
@@ -46,21 +47,31 @@ span{
     color: $text-color;
     position: relative;
 }
-.header-section span{
+.header-section > span, .header-section > a{
     display: inline-block;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: 0;
     height: 30px;
     line-height: 30px;
+    color: $text-color;
 }
-.header-section span:not(:last-child){
-    padding-right: 20px;
-}
+
 
 
 /* content */
 .content{
+    box-sizing: border-box;
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    padding: 0 20px;
+}
+@media(max-width: $width-threshold){
+    .content{
+        padding: 0;
+    }
 }
 
 .content-section{
@@ -68,7 +79,7 @@ span{
     width: 100%;
     box-sizing: border-box;
     background-color: $content-background;
-    margin: 20px;
+    margin: 20px 0 0 0;
     .content-section-title{
         box-sizing: border-box;
         display: inline-block;
@@ -80,11 +91,6 @@ span{
     }
 }
 
-@media(max-width: $width-threshold){
-    .content-section{
-        margin: 20px 0px;
-    }
-}
 .content-item-list{
     padding: 0;
     margin:0;
@@ -97,7 +103,7 @@ span{
         display: flex;
     }
 }
-.content-item > button, .content-item > a, .content-item > span{
+.content-item > a, .content-item > span{
     display: inline-block;
     box-sizing: border-box;
     border:0; padding:0; margin:0;
@@ -113,7 +119,7 @@ span{
     font-size: 13px !important;
     min-height: 20px !important;
     line-height: 20px !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
 }
 
 
@@ -128,16 +134,46 @@ span{
     box-sizing: border-box;
     word-wrap:break-word;
     word-break:break-all;
-    color: white;
+    color: white !important;
     font-weight: 200;
     font-size: 12px;
     height: auto !important;
     line-height: 18px !important;
     border-radius: 5px;
-    border: $hint-box-border;
+    border: $hint-box-border !important;
     position: absolute;
     background-color: $hint-box-background;
     background-color: $hint-box-background-2;
-    padding: 15px;
+    padding: 15px !important;
    
 }
+
+
+
+
+/*btn class*/
+.btn{
+    display: inline-block;
+    box-sizing: border-box !important;
+    border: $content-border !important;
+    border-radius: 12px !important;
+    outline: none !important;
+    color: $text-color !important;
+    cursor: pointer !important;
+    height: 26px !important;
+    line-height: 24px !important;
+    text-align: center;    
+    font-size: 14px;
+    font-weight: 400;
+    margin: 2px 4px;
+ }
+ .btn:hover{
+     color: black !important;
+     font-weight: 300;
+ }
+ .btn-large{
+     width: 110px;
+ }
+ .btn-medium{
+     width: 90px;
+ }

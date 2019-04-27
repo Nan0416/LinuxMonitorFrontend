@@ -1,6 +1,6 @@
 import { Injectable, HostListener } from '@angular/core';
 import { PluginMeta } from '../data-structures/PluginMeta';
-import { Observable, Observer, Subscribable, Subscriber } from 'rxjs';
+import { Observable, Observer, Subject, Subscriber } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -11,10 +11,13 @@ export class WindowResizeService {
   subscriber:Subscriber<Number> = null;
   targetWidth: Number = -1;
   isBigger: boolean = false; // current value >= target value
+  private resizeEvt_ = new Subject();
+  public reasize$ = this.resizeEvt_.asObservable();
   constructor() {
     console.log("WindowResizeService is initialized");
     window.onresize = (e) =>
     {
+      this.resizeEvt_.next();
       if(this.targetWidth < 0){
         return;
       }

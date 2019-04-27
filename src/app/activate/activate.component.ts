@@ -5,7 +5,7 @@ import {Result} from '../data-structures/GeneralResult';
 @Component({
   selector: 'app-activate',
   templateUrl: './activate.component.html',
-  styleUrls: ['./activate.component.scss']
+  styleUrls: ['../styles/general.scss', './activate.component.scss']
 })
 export class ActivateComponent implements OnInit {
   result: Result = null;
