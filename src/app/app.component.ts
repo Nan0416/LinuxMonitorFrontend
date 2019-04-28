@@ -1,8 +1,10 @@
 import { Component , OnInit} from '@angular/core';
-import {Router, NavigationEnd} from '@angular/router';
+import {Router, Event, NavigationEnd, ActivatedRoute} from '@angular/router';
 import { UserOperationService } from './services/user-operation.service';
 import { WindowResizeService } from './services/window-resize.service';
 import { User } from './data-structures/User';
+import { filter } from 'rxjs/operators';
+import { CacheService } from './services/cache.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,17 +15,21 @@ export class AppComponent implements OnInit {
   isVertical: boolean = true;
   user: User = null;
   isShowingDropdown: boolean = false;
+  currentUrl: string = '';
+  isShowUI: boolean = false;
+  isWelcomePage: boolean = true;
+  nonuservalidpage: Set<string> = new Set<string>();
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
+    private cacheService: CacheService,
     private userOperator: UserOperationService,
     private windowResize: WindowResizeService,
   ){ 
-    /*this.user = new User(); 
-    this.user.username = "qinnan";
-    this.user.email = "qinnan0416@gmail.com";
-    this.user.status = 1;
-    this.user.profile = "../assets/img/temp-profile.jpg";*/
-    
+    this.nonuservalidpage.add('');
+    this.nonuservalidpage.add('docs');
+    this.nonuservalidpage.add('news');
+    this.nonuservalidpage.add('activate');
   }
 
   
@@ -46,21 +52,36 @@ export class AppComponent implements OnInit {
         this.isShowingDropdown = false;
       }
     });
-    console.log(this.router.url);
+    this.router.events.pipe(
+      filter((e: Event)=> e instanceof NavigationEnd)
+    ).subscribe((e: NavigationEnd)=>{
+      this.currentUrl = e.urlAfterRedirects;
+      if(this.currentUrl == '/'){
+        this.isWelcomePage = true;
+      }else{
+        this.isWelcomePage = false;
+      }
+    });
+
     // set login listener
     this.userOperator.userMount$.subscribe(user=>{
       this.user = user;
-      console.log(this.user);
-      if(this.router.url == '/'){ 
-        this.router.navigate(["dashboard"]);
-      }
+      this.isShowUI = true;
+      // go everywhere, ** if it goes to /, then / will do the redirection.
     });
 
     // set logout listener
     this.userOperator.userUnMount$.subscribe(()=>{
-      // go to welcome page
       this.user = null;
-      this.router.navigate(["/"]);
+      this.isShowUI = true;
+      // this.cacheService.reset();
+      let page = this.currentUrl.split('/')[1];
+      if(this.nonuservalidpage.has(page)){
+        return;
+      }
+      // this.currentUrl is a membership required page.
+      this.cacheService.saveRedirect(this.currentUrl);
+      this.router.navigate(['']); // go to login
     });
 
     // query initialial state.

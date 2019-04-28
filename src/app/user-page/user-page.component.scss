@@ -1,4 +1,12 @@
-.user-item span{
+
+.user-item{
+    padding: 0 !important;
+}
+
+.user-item > span, .user-item > a{
+    height: 38px;
+    line-height: 38px;
     width: 100%;
     text-align: center !important;
+    cursor: pointer;  
 }

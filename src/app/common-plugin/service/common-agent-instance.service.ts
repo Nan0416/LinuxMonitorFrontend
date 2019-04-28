@@ -21,7 +21,7 @@ export class CommonAgentInstanceService {
     
   }
   
-  queryData(agentid: string, timestamp: number){
+  queryData(agentid: string, from: number, to: number){
     const loginReq: Observable<CommonMetrics[]> = new Observable((observable)=>{
       const httpObserver = {
        next: data=>{
@@ -45,8 +45,11 @@ export class CommonAgentInstanceService {
      /////// login now ///////////
      let loginUrl = `${this.urlprefix}/plugin/query/common`;
      let value = {"agent-id": agentid};
-     if(timestamp > 0){
-      value['timestamp'] = timestamp;
+     if(from > 0){
+      value['from'] = from;
+     }
+     if(to > 0){
+      value['to'] = to;
      }
      this.http.post(loginUrl, value, {withCredentials: true }).subscribe(httpObserver);
    });

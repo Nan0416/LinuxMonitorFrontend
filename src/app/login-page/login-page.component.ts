@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserOperationService } from '../services/user-operation.service';
 import {Router , NavigationEnd} from '@angular/router';
+import { CacheService } from '../services/cache.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -10,6 +11,7 @@ export class LoginPageComponent implements OnInit {
 
   constructor(
     private userOperator: UserOperationService,
+    private cacheService: CacheService,
     private router: Router
   ) { }
   isLoginPage:boolean = true;
@@ -24,14 +26,18 @@ export class LoginPageComponent implements OnInit {
   signup_error: string = null;
 
   ngOnInit() {
-    
+    /* listen user mount */
+    if(this.userOperator.user){
+      this.router.navigate(this.cacheService.map.get('redirect'));
+      return;
+    }
   }
   
   login(){
     this.error = null;
     this.userOperator.login(this.id, this.password).subscribe(data=>{
       if(data){
-        this.router.navigate(["/"]);
+        this.router.navigate(this.cacheService.map.get('redirect'));
       }else{
         //show err
         this.error = "Invalid username or password";
@@ -118,8 +124,7 @@ validatePassword(password){
     
     this.userOperator.signup(this.username, this.email, this.password_1).subscribe(user=>{
       if(user !== null){
-        // success
-        this.router.navigate(["/user"]);
+        this.router.navigate(this.cacheService.map.get('redirect'));
       }else{
         this.signup_error = "Username or email is already registered."
       }

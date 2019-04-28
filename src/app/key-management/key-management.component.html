@@ -9,7 +9,7 @@
           A key represents a set of privileges. A key with necessary privileges is 
           required when you want to initialize an agent instance or use a plugin.
       </span>
-      <span><button class="btn btn-large" (click)="addKey()">+</button></span>
+      <span><button class="btn btn-large btn-green" (click)="addKey()">+</button></span>
     </div>
   </div>
   <div class="content">
@@ -19,9 +19,9 @@
         <li *ngFor="let key of keys" class="content-item key-item">
             <span class="key-value">{{getValue(key)}}</span>
             <span class="key-control">
-              <button class="btn btn-medium" #viewbtn (click)="toggleVisiblity(key._id, viewbtn)">View</button>
-              <button class="btn btn-medium" #disablebtn (click)="disableKey(key._id, viewbtn)">Disable</button>
-              <button class="btn btn-medium" #deletebtn (click)="deleteKey(key._id, viewbtn)">Delete</button>
+              <button class="btn btn-medium btn-gray" #viewbtn (click)="toggleVisiblity(key._id, viewbtn)">View</button>
+              <button class="btn btn-medium btn-gray" #disablebtn (click)="disableKey(key._id, viewbtn)">Disable</button>
+              <button class="btn btn-medium btn-red" #deletebtn (click)="deleteKey(key._id, viewbtn)">Delete</button>
             </span>
         </li>
         

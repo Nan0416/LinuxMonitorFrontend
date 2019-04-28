@@ -133,7 +133,7 @@ span{
     display: none !important;
     box-sizing: border-box;
     word-wrap:break-word;
-    word-break:break-all;
+    //word-break:break-all;
     color: white !important;
     font-weight: 200;
     font-size: 12px;
@@ -158,18 +158,28 @@ span{
     border: $content-border !important;
     border-radius: 12px !important;
     outline: none !important;
+    padding: 0;
     color: $text-color !important;
     cursor: pointer !important;
     height: 26px !important;
     line-height: 24px !important;
     text-align: center;    
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 430;
     margin: 2px 4px;
  }
+
  .btn:hover{
-     color: black !important;
      font-weight: 300;
+ }
+ .btn-green:hover{
+    color: green !important;
+ }
+ .btn-red:hover{
+     color:red !important;
+ }
+ .btn-gray:hover{
+     color:gray !important;
  }
  .btn-large{
      width: 110px;

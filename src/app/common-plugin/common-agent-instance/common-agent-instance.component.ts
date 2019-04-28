@@ -82,15 +82,13 @@ export class CommonAgentInstanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.agentId =  this.agentId = this.route.snapshot.paramMap.get('agent-id');
-    this.agentService.queryAgentMetaById(this.agentId).subscribe(data=>{
-      this.agentMeta = data;
-    })
-    console.log(this.agentMeta);
-    this.repeatQuery(2000);
+    this.agentId = this.route.snapshot.paramMap.get('agent-id');
+    this.route.data.subscribe((data) => {
+      this.agentMeta = data['agentMeta'];
+      console.log("load", this.agentMeta);
+    });
   }
   ngOnDestroy(){
-    this.stopQuery();
   }
   ngAfterViewInit(){
     let widthT = parseFloat(d3.select('#cpu-svg').style("width"));
@@ -177,7 +175,7 @@ export class CommonAgentInstanceComponent implements OnInit, OnDestroy {
       .y((d)=>{ return this.memoryScale(d.memtotal - d.memavail);})
       .curve(d3.curveBasis);
 
-    this.repeatQuery(2000);
+    
     this.windowResize.reasize$.subscribe(()=>{
       // resize
       console.log('resize');
@@ -197,43 +195,19 @@ export class CommonAgentInstanceComponent implements OnInit, OnDestroy {
     });
   }
 
-  _lastTimeStamp: number = -1;
-  repeatQuery(period: number){
-    this.handle = setInterval(()=>{
-      console.log("query...")
-      this.commonAgentService.queryData(this.agentId, this._lastTimeStamp).subscribe((data: CommonMetrics[])=>{
-        console.log("get new data from ....", new Date(this._lastTimeStamp),data);
-        this.loopData(data);
-        console.log(this.data);
-        this.drawPaths();
-      });
-    }, period);
+  show(from: Date, to: Date){
+    this.commonAgentService.queryData(this.agentId, from.getTime(), to.getTime()).subscribe((data: CommonMetrics[])=>{
+      this.data = data;
+      this.loopData();
+      this.drawPaths();
+    });
   }
-  stopQuery(){
-    if(this.handle != null){
-      clearInterval(this.handle);
-      this.handle == null;
-    }
-  }
-  loopData(data){
-    if(data.length == 0){return;}
-    // assume in .createdAt order.
-    // integrate data, remove expired data
-    this.data = this.data.concat(data);
-    let currentTimestamp = (new Date()).getTime(); //ms
-    let validTimestamp = currentTimestamp - this.period * 1000;
-    let flag = 0; // assume all valid.
-    for(let i = this.data.length - 1; i >= 0;  i--){
-      if(this.data[i].createdAt.getTime() < validTimestamp){
-        flag = i + 1;
-        break;
-      }
-    }
-    this.data = this.data.slice(flag, this.data.length);
+  
+  loopData(){
+    if(this.data.length == 0){return;}
     // update time domain
     let begin = this.data[0].createdAt;
     let end = this.data[this.data.length - 1].createdAt;
-    this._lastTimeStamp = end.getTime();
     this.timeScale.domain([begin, end]);
     
     // update disk, memory scale

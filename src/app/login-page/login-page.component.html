@@ -1,8 +1,4 @@
 <div id="welcome-content" class="content">
-   
-
-
-
 <div id="login-wrapper" class="wrapper">
 <div *ngIf="isLoginPage" class="container">
   <div class="prompt">
@@ -23,8 +19,8 @@
   <div class="btn-div">
     <button id="login-btn" (click)="login()">Login</button>
   </div>
-  <div class="prompt">
-    <label>New to LinuxMonitor? <button id="signup-btn" (click)="gotoSignup()">Signup</button></label>
+  <div class="prompt" id="signup-prompt">
+    <label>New to LinuxMonitor?</label> <button id="signup-btn" (click)="gotoSignup()">Signup</button>
   </div>
 </div>
 <div *ngIf="!isLoginPage" class="container">

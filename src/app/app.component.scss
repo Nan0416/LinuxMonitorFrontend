@@ -192,22 +192,14 @@ ul.dropdown-section{
     justify-content: space-between;
     padding: $header-padding-horizontal;
 }
-@media (max-width: $width-threshold) {
-    // go vertical
-    .responsive-footer{
-        
-        flex-direction: column;
-        align-content: center;
-        padding: $header-padding-vertical;
-    }
-}
+
 .footer-section{
     min-height: 30px;
     padding: 0 40px;
     //background-color: green;
     text-align: center;
 }
-.footer-section span{
+.footer-section span, .footer-section a{
     display: inline-block;
     min-height: 30px;
     line-height: 30px;
@@ -220,4 +212,13 @@ ul.dropdown-section{
 }
 #second-footer-section span{
     text-align: right;
+}
+@media (max-width: $width-threshold) {
+    // go vertical
+    .responsive-footer{
+        
+        flex-direction: column;
+        align-content: center;
+        padding: $header-padding-vertical;
+    }
 }

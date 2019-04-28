@@ -22,7 +22,8 @@ import { CommonSettingsComponent } from './common-plugin/common-settings/common-
 //import { TargetDetailComponent } from './target-detail/target-detail.component';
 //Service
 
-import {AgentmetaResolverService} from './services/resolvers/agentmeta-resolver.service';
+import {ActivationResolverService} from './services/resolvers/activation-resolver.service';
+import {AgentmetabyidResolverService } from './services/resolvers/agentmetabyid-resolver.service';
 // router
 
 export function metaListMatcher(url: UrlSegment[]) {
@@ -55,18 +56,22 @@ export function watchLaterMatcher(url: UrlSegment[]){
 }
 const routes: Route[]=[
   { path: "", component: LoginPageComponent}, // login welcome page.
-  { path: "activate/:code", component: ActivateComponent},
+  { path: "activate/:code", component: ActivateComponent, 
+    resolve:{
+      activationResult: ActivationResolverService
+    }
+  },
   { path: "user", component: UserPageComponent},
   { path: "plugin", component: PluginComponent},
   { path: "plugin/:name", component: PlugindetailComponent},
   { path: "agent/common/:agent-id", component: CommonAgentInstanceComponent, 
-    /*resolve:{
-      agentMeta: AgentmetaResolverService 
-    }*/
+    resolve:{
+      agentMeta: AgentmetabyidResolverService 
+    }
   },
   { path: "agent/common/settings/:agent-id", component: CommonSettingsComponent},
   { path: "dashboard", component: DashboardComponent},
-  { path: "key", component: KeyManagementComponent},
+  { path: "keys", component: KeyManagementComponent},
   { path: "account", component: AccountComponent},
   { path: "**", component: NotFoundComponent},
 ];

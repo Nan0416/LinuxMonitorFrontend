@@ -13,7 +13,7 @@ export class UserOperationService {
 
 
   urlprefix:string = server_addr + url_prefix;
-  user: User = null;
+  public user: User = null;
 
   // Observable string sources
   private userMountEvt_ = new Subject<User>();
