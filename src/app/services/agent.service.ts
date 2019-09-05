@@ -45,7 +45,7 @@ export class AgentService {
    return queryReq;
   }
   queryAgentMetaAll(){
-    // GET https://monitor.sousys.com/web-api/agent/query
+    // GET https://monitor.qinnan.dev/web-api/agent/query
     const httpObserver = {
       next: data=>{
         if(data.success && data.value){
